@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encuesta de Programación</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- SweetAlert2 para notificaciones -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Google Fonts - Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main>
+        <!-- Sección de encuesta principal -->
+        <section id="survey">
+            <div class="container">
+                <!-- Título general y descripción -->
+                <div class="header">
+                    <h1>Encuesta de Programación</h1>
+                    <p class="lead">Comparte tus preferencias sobre el mundo de la programación y ayúdanos a conocer las tendencias actuales entre desarrolladores</p>
+                </div>
+                
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="bi bi-bar-chart-fill"></i> Encuesta Principal
+                            </div>
+                            <div class="card-body">
+                                <form id="surveyForm">
+                                    <div class="mb-3">
+                                        <h5 class="highlight">¿Cuál es tu lenguaje de programación favorito?</h5>
+                                        
+                                        <div class="language-grid">
+                                            <!-- Primera fila -->
+                                            <div class="language-item">
+                                                <input class="language-radio" type="radio" name="language" id="javascript" value="JavaScript">
+                                                <label class="language-label" for="javascript">
+                                                    <i class="bi bi-filetype-js"></i>
+                                                    <span>JavaScript</span>
+                                                </label>
+                                            </div>
+                                            
+                                            <div class="language-item">
+                                                <input class="language-radio" type="radio" name="language" id="python" value="Python">
+                                                <label class="language-label" for="python">
+                                                    <i class="bi bi-filetype-py"></i>
+                                                    <span>Python</span>
+                                                </label>
+                                            </div>
+                                            
+                                            <div class="language-item">
+                                                <input class="language-radio" type="radio" name="language" id="java" value="Java">
+                                                <label class="language-label" for="java">
+                                                    <i class="bi bi-cup-hot-fill"></i>
+                                                    <span>Java</span>
+                                                </label>
+                                            </div>
+                                            
+                                            <!-- Segunda fila -->
+                                            <div class="language-item">
+                                                <input class="language-radio" type="radio" name="language" id="csharp" value="C#">
+                                                <label class="language-label" for="csharp">
+                                                    <i class="bi bi-hash"></i>
+                                                    <span>C#</span>
+                                                </label>
+                                            </div>
+                                            
+                                            <div class="language-item">
+                                                <input class="language-radio" type="radio" name="language" id="php" value="PHP">
+                                                <label class="language-label" for="php">
+                                                    <i class="bi bi-filetype-php"></i>
+                                                    <span>PHP</span>
+                                                </label>
+                                            </div>
+                                            
+                                            <div class="language-item">
+                                                <input class="language-radio" type="radio" name="language" id="typescript" value="TypeScript">
+                                                <label class="language-label" for="typescript">
+                                                    <i class="bi bi-filetype-tsx"></i>
+                                                    <span>TypeScript</span>
+                                                </label>
+                                            </div>
+                                            
+                                            <!-- Tercera fila -->
+                                            <div class="language-item">
+                                                <input class="language-radio" type="radio" name="language" id="cpp" value="C++">
+                                                <label class="language-label" for="cpp">
+                                                    <i class="bi bi-file-earmark-code"></i>
+                                                    <span>C++</span>
+                                                </label>
+                                            </div>
+                                            
+                                            <div class="language-item">
+                                                <input class="language-radio" type="radio" name="language" id="ruby" value="Ruby">
+                                                <label class="language-label" for="ruby">
+                                                    <i class="bi bi-gem"></i>
+                                                    <span>Ruby</span>
+                                                </label>
+                                            </div>
+                                            
+                                            <div class="language-item">
+                                                <input class="language-radio" type="radio" name="language" id="go" value="Go">
+                                                <label class="language-label" for="go">
+                                                    <i class="bi bi-file-earmark-binary"></i>
+                                                    <span>Go</span>
+                                                </label>
+                                            </div>
+                                            
+                                            <!-- Cuarta fila -->
+                                            <div class="language-item">
+                                                <input class="language-radio" type="radio" name="language" id="swift" value="Swift">
+                                                <label class="language-label" for="swift">
+                                                    <i class="bi bi-chevron-bar-contract"></i>
+                                                    <span>Swift</span>
+                                                </label>
+                                            </div>
+                                            
+                                            <div class="language-item">
+                                                <input class="language-radio" type="radio" name="language" id="kotlin" value="Kotlin">
+                                                <label class="language-label" for="kotlin">
+                                                    <i class="bi bi-phone"></i>
+                                                    <span>Kotlin</span>
+                                                </label>
+                                            </div>
+                                            
+                                            <div class="language-item">
+                                                <input class="language-radio" type="radio" name="language" id="rust" value="Rust">
+                                                <label class="language-label" for="rust">
+                                                    <i class="bi bi-gear"></i>
+                                                    <span>Rust</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Sección para preguntas dinámicas -->
+                                    <div id="dynamicQuestions"></div>
+
+                                    <button type="submit" class="btn btn-primary w-100">
+                                        <i class="bi bi-send-fill"></i> Enviar Respuesta
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección para agregar preguntas -->
+        <section id="add-question">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="bi bi-plus-circle-fill"></i> Agregar Nueva Pregunta
+                            </div>
+                            <div class="card-body">
+                                <p class="mb-3">Personaliza la encuesta añadiendo tus propias preguntas para que otros puedan responderlas.</p>
+                                <form id="addQuestionForm">
+                                    <div class="form-group mb-3">
+                                        <label for="questionText" class="form-label">Texto de la pregunta</label>
+                                        <input type="text" class="form-control" id="questionText" placeholder="Ej: ¿Qué framework prefieres?">
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label class="form-label">Opciones (una por línea)</label>
+                                        <textarea class="form-control" id="questionOptions" rows="4" placeholder="React&#10;Angular&#10;Vue&#10;Svelte"></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary w-100">
+                                        <i class="bi bi-plus-lg"></i> Agregar Pregunta
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de resultados -->
+        <section id="results">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="bi bi-graph-up"></i> Resultados en Tiempo Real
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-container">
+                                    <canvas id="resultsChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html> 
