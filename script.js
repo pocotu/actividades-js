@@ -29,6 +29,9 @@ function getCSSVariable(variableName) {
 document.addEventListener('DOMContentLoaded', function() {
     // Inicializar el gráfico principal
     initChart();
+    
+    // Inicializar listeners para formularios
+    setupFormListeners();
 });
 
 // Inicializar el gráfico
@@ -144,12 +147,26 @@ function updateChart() {
     resultsChart.update();
 }
 
+// Función para configurar todos los listeners de formularios
+function setupFormListeners() {
+    // Manejar el envío del formulario de encuesta
+    document.getElementById('surveyForm').addEventListener('submit', handleSurveySubmit);
+    
+    // Agregar nueva pregunta
+    document.getElementById('addQuestionForm').addEventListener('submit', handleAddQuestion);
+}
+
 // Manejar el envío del formulario de encuesta
-document.getElementById('surveyForm').addEventListener('submit', function(e) {
+function handleSurveySubmit(e) {
     e.preventDefault();
     
     // Obtener el valor seleccionado para la pregunta principal
     const languageSelected = document.querySelector('input[name="language"]:checked');
+    
+    // Obtener colores CSS
+    const colorDark = getCSSVariable('--color-dark');
+    const colorLight = getCSSVariable('--color-light');
+    const colorWhite = getCSSVariable('--color-white');
     
     // Verificar si se seleccionó una opción
     if (languageSelected) {
@@ -158,11 +175,6 @@ document.getElementById('surveyForm').addEventListener('submit', function(e) {
         
         // Animación de éxito
         animateSuccess();
-        
-        // Obtener colores CSS
-        const colorDark = getCSSVariable('--color-dark');
-        const colorLight = getCSSVariable('--color-light');
-        const colorWhite = getCSSVariable('--color-white');
         
         // Mostrar notificación
         Swal.fire({
@@ -176,7 +188,7 @@ document.getElementById('surveyForm').addEventListener('submit', function(e) {
         });
         
         // Resetear el formulario
-        this.reset();
+        document.getElementById('surveyForm').reset();
         
         // Desplazarse automáticamente a los resultados
         setTimeout(() => {
@@ -185,11 +197,6 @@ document.getElementById('surveyForm').addEventListener('submit', function(e) {
             });
         }, 1500);
     } else {
-        // Obtener colores CSS
-        const colorDark = getCSSVariable('--color-dark');
-        const colorLight = getCSSVariable('--color-light');
-        const colorWhite = getCSSVariable('--color-white');
-        
         Swal.fire({
             title: 'Error',
             text: 'Por favor selecciona una opción antes de enviar.',
@@ -215,10 +222,10 @@ document.getElementById('surveyForm').addEventListener('submit', function(e) {
             }
         }
     });
-});
+}
 
 // Agregar nueva pregunta
-document.getElementById('addQuestionForm').addEventListener('submit', function(e) {
+function handleAddQuestion(e) {
     e.preventDefault();
     
     const questionText = document.getElementById('questionText').value.trim();
@@ -278,7 +285,13 @@ document.getElementById('addQuestionForm').addEventListener('submit', function(e
     const chartId = `dynamicChart${questionIndex}`;
     
     setTimeout(() => {
-        const ctx = document.getElementById(chartId).getContext('2d');
+        const chartElement = document.getElementById(chartId);
+        if (!chartElement) {
+            console.error('No se encontró el elemento del gráfico:', chartId);
+            return;
+        }
+        
+        const ctx = chartElement.getContext('2d');
         const chart = new Chart(ctx, {
             type: 'pie',
             data: {
@@ -330,10 +343,10 @@ document.getElementById('addQuestionForm').addEventListener('submit', function(e
         
         // Guardar referencia al gráfico
         dynamicQuestions[questionIndex].chart = chart;
-    }, 100);
+    }, 300); // Aumentado el tiempo para asegurar que el DOM esté listo
     
     // Limpiar el formulario
-    this.reset();
+    document.getElementById('addQuestionForm').reset();
     
     // Mostrar notificación
     Swal.fire({
@@ -352,13 +365,33 @@ document.getElementById('addQuestionForm').addEventListener('submit', function(e
             behavior: 'smooth'
         });
     }, 1500);
-});
+}
 
 // Renderizar preguntas dinámicas
 function renderDynamicQuestions() {
     const container = document.getElementById('dynamicQuestions');
+    if (!container) {
+        console.error('No se encontró el contenedor para preguntas dinámicas');
+        return;
+    }
+    
+    // Limpiar el contenedor
     container.innerHTML = '';
     
+    // Si no hay preguntas, no hacer nada más
+    if (dynamicQuestions.length === 0) {
+        return;
+    }
+    
+    // Agregar un título para la sección si es la primera pregunta
+    if (dynamicQuestions.length === 1) {
+        const sectionTitle = document.createElement('h4');
+        sectionTitle.textContent = 'Preguntas adicionales';
+        sectionTitle.className = 'mt-4 mb-3';
+        container.appendChild(sectionTitle);
+    }
+    
+    // Renderizar cada pregunta
     dynamicQuestions.forEach((question, index) => {
         const card = document.createElement('div');
         card.className = 'card mb-4';
@@ -391,7 +424,7 @@ function renderDynamicQuestions() {
             label.className = 'language-label';
             label.htmlFor = `${option.replace(/\s+/g, '')}${index}`;
             
-            // Añadir icono directamente al label (sin contenedor adicional)
+            // Añadir icono al label
             const icon = document.createElement('i');
             icon.className = 'bi bi-code-square';
             
@@ -426,6 +459,15 @@ function renderDynamicQuestions() {
         cardBody.appendChild(chartContainer);
         card.appendChild(cardBody);
         container.appendChild(card);
+    });
+    
+    // Asegurar que los estilos de los íconos sean circulares
+    document.querySelectorAll('.language-label i').forEach(icon => {
+        icon.style.width = '60px';
+        icon.style.height = '60px';
+        icon.style.display = 'flex';
+        icon.style.alignItems = 'center';
+        icon.style.justifyContent = 'center';
     });
 }
 
