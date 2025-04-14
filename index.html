@@ -161,6 +161,30 @@
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-md-8">
+                        <!-- Formulario para agregar un nuevo lenguaje -->
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <i class="bi bi-code-slash"></i> Agregar Nuevo Lenguaje
+                            </div>
+                            <div class="card-body">
+                                <p class="mb-3">Añade un nuevo lenguaje de programación a la encuesta principal.</p>
+                                <form id="addLanguageForm">
+                                    <div class="form-group mb-3">
+                                        <label for="languageName" class="form-label">Nombre del lenguaje</label>
+                                        <input type="text" class="form-control" id="languageName" placeholder="Ej: Scala, Dart, Elixir...">
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="languageIcon" class="form-label">Icono (clase de Bootstrap Icons)</label>
+                                        <input type="text" class="form-control" id="languageIcon" placeholder="Ej: bi-code-slash" value="bi-code-slash">
+                                        <small class="form-text text-muted">Puedes ver íconos disponibles en <a href="https://icons.getbootstrap.com/" target="_blank">Bootstrap Icons</a></small>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary w-100">
+                                        <i class="bi bi-plus-lg"></i> Agregar Lenguaje
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        
                         <div class="card">
                             <div class="card-header">
                                 <i class="bi bi-plus-circle-fill"></i> Agregar Nueva Pregunta

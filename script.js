@@ -154,6 +154,9 @@ function setupFormListeners() {
     
     // Agregar nueva pregunta
     document.getElementById('addQuestionForm').addEventListener('submit', handleAddQuestion);
+    
+    // Agregar nuevo lenguaje
+    document.getElementById('addLanguageForm').addEventListener('submit', handleAddLanguage);
 }
 
 // Manejar el envío del formulario de encuesta
@@ -536,4 +539,126 @@ function animateSuccess() {
     setTimeout(() => {
         formContainer.classList.remove('success-animation');
     }, 1000);
+}
+
+// Manejar el agregar un nuevo lenguaje
+function handleAddLanguage(e) {
+    e.preventDefault();
+    
+    const languageName = document.getElementById('languageName').value.trim();
+    const iconClass = document.getElementById('languageIcon').value.trim();
+    
+    // Obtener colores CSS
+    const colorDark = getCSSVariable('--color-dark');
+    const colorLight = getCSSVariable('--color-light');
+    const colorWhite = getCSSVariable('--color-white');
+    
+    // Validar el nombre del lenguaje
+    if (languageName === '') {
+        Swal.fire({
+            title: 'Error',
+            text: 'Por favor ingresa un nombre para el lenguaje.',
+            icon: 'error',
+            background: colorDark,
+            color: colorWhite,
+            iconColor: colorLight,
+            confirmButtonColor: colorLight
+        });
+        return;
+    }
+    
+    // Verificar si el lenguaje ya existe
+    if (surveyData.hasOwnProperty(languageName)) {
+        Swal.fire({
+            title: 'Error',
+            text: 'Este lenguaje ya existe en la encuesta.',
+            icon: 'error',
+            background: colorDark,
+            color: colorWhite,
+            iconColor: colorLight,
+            confirmButtonColor: colorLight
+        });
+        return;
+    }
+    
+    // Añadir el nuevo lenguaje al objeto de datos
+    surveyData[languageName] = 0;
+    
+    // Actualizar el gráfico
+    updateChart();
+    
+    // Añadir el lenguaje al formulario principal
+    addLanguageToForm(languageName, iconClass);
+    
+    // Limpiar el formulario
+    document.getElementById('addLanguageForm').reset();
+    
+    // Mostrar notificación
+    Swal.fire({
+        title: 'Lenguaje Añadido',
+        text: `El lenguaje "${languageName}" ha sido agregado a la encuesta.`,
+        icon: 'success',
+        background: colorDark,
+        color: colorWhite,
+        iconColor: colorLight,
+        confirmButtonColor: colorLight
+    });
+    
+    // Desplazarse a la sección de la encuesta
+    setTimeout(() => {
+        document.getElementById('survey').scrollIntoView({
+            behavior: 'smooth'
+        });
+    }, 1500);
+}
+
+// Función para añadir un lenguaje al formulario principal
+function addLanguageToForm(languageName, iconClass) {
+    // Conseguir el contenedor de la cuadrícula de lenguajes
+    const languageGrid = document.querySelector('.language-grid');
+    
+    if (!languageGrid) {
+        console.error('No se encontró el contenedor de la cuadrícula de lenguajes');
+        return;
+    }
+    
+    // Crear nuevo elemento para el lenguaje
+    const languageItem = document.createElement('div');
+    languageItem.className = 'language-item';
+    
+    // Crear input radio
+    const input = document.createElement('input');
+    input.className = 'language-radio';
+    input.type = 'radio';
+    input.name = 'language';
+    input.id = languageName.toLowerCase().replace(/\s+/g, '');
+    input.value = languageName;
+    
+    // Crear label
+    const label = document.createElement('label');
+    label.className = 'language-label';
+    label.htmlFor = languageName.toLowerCase().replace(/\s+/g, '');
+    
+    // Crear icono
+    const icon = document.createElement('i');
+    icon.className = 'bi ' + (iconClass || 'bi-code-slash');
+    // Asegurar que el icono sea circular
+    icon.style.width = '60px';
+    icon.style.height = '60px';
+    icon.style.display = 'flex';
+    icon.style.alignItems = 'center';
+    icon.style.justifyContent = 'center';
+    
+    // Crear span para el texto
+    const textSpan = document.createElement('span');
+    textSpan.textContent = languageName;
+    
+    // Ensamblar todo
+    label.appendChild(icon);
+    label.appendChild(textSpan);
+    languageItem.appendChild(input);
+    languageItem.appendChild(label);
+    
+    // Añadir a la cuadrícula
+    languageGrid.appendChild(languageItem);
 } 
